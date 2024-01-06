@@ -6,31 +6,69 @@ const port = 8000;
 
 const app = express();
 
-app.set('view engine' , 'ejs');
-app.set('views' , path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.urlencoded());
+
+var contact_list = [
+
+    {
+        name: "Adarsh",
+        phoneno: "124569856"
+    },
+    {
+        name: "Aman",
+        phoneno: "7806466682"
+    },
+    {
+        name: "Anmol",
+        phoneno: "4575766882"
+    }
+]
 
 
-app.get('/', function(req , res){
-   // console.log(req);
-  // console.log(__dirname);
+app.get('/', function (req, res) {
+    // console.log(req);
+    // console.log(__dirname);
     // res.send('Cool it is running or is it?');
-    return res.render('Home');
+    return res.render('Home',
+        {
+            title: "My Contact List" ,
+            contacts: contact_list 
+        });
 
 });
 
-app.get('/home', (req , res)=> {
-    res.send('<h1> Welcome To Home  Page </h1>');
+app.post('/create_contact', (req, res)=>{
+  // console.log(res);
+//   return  res.redirect('/practice');
+// console.log(req.body);
+// console.log(req.body.name)
+   contact_list.push(req.body);
+   return res.redirect('back')
+  // return res.redirect('/');
+  
+
 })
 
+app.get('/practice', function (req, res) {
+    return res.render('practice', { title: "My Practice Page" });
+});
 
-app.listen(port , (err)=>{
 
-    if(err)
-    {
-        console.log("Error in running the server" , err);
+
+// app.get('/home', (req , res)=> {
+//     res.send('<h1> Welcome To Home  Page </h1>');
+// })
+
+
+app.listen(port, (err) => {
+
+    if (err) {
+        console.log("Error in running the server", err);
         return;
     }
 
-    console.log("Yup!My Express Server is running on port: " , port);
+    console.log("Yup!My Express Server is running on port: ", port);
 
 });

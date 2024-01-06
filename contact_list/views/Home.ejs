@@ -1,9 +1,35 @@
 <html>
-    <head>
-    </head>
-    <body>
-        
-        <h1>Welcome to EJS Tempelate Engine</h1>
 
-    </body>
+<head>
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <h1>Welcome to Contact List Demo</h1>
+    <div>
+        <ul>
+            <% for (let i of contacts) { %>
+                <li>
+                    <p>
+                        <%=i.name %>
+                    </p>
+                    <p>
+                        <%=i.phoneno %>
+                    </p>
+                </li>
+
+                <% }%>
+        </ul>
+    </div>
+    <div>
+        <form action="/create_contact" method="post">
+            <input type="text" name="name" placeholder="Enter Name" required> <br> <br>
+            <input type="number" name="phoneno" placeholder="Enter Phone no" required> <br> <br>
+            <button type="submit">Add Contact</button>
+        </form>
+    </div>
+</body>
+
 </html>
