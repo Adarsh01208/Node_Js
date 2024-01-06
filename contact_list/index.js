@@ -2,16 +2,29 @@ const express = require('express')
 const path = require('path');
 const port = 8000;
 
-
-
 const app = express();
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded());
+app.use(express.static('assets'));
+
+//middlewarre 1
+//app.use(function(req, res, next){
+//req.myName="adarsh";
+//console.log("middleware 1 Called ")
+//next();
+//});
+
+//middlewarre 2
+//app.use(function(req, res, next){
+// console.log('my Name from mw2',req.myname);
+//console.log("middleware 2 Called ")
+//next();
+//});
 
 var contact_list = [
-
     {
         name: "Adarsh",
         phoneno: "124569856"
@@ -56,11 +69,9 @@ app.get('/practice', function (req, res) {
 });
 
 
-
 // app.get('/home', (req , res)=> {
 //     res.send('<h1> Welcome To Home  Page </h1>');
 // })
-
 
 app.listen(port, (err) => {
 
