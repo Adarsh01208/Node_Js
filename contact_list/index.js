@@ -25,10 +25,11 @@ app.use(express.static('assets'));
 //next();
 //});
 
+
 var contact_list = [
     {
         name: "Adarsh",
-        phoneno: "124569856"
+        phoneno: "1245698568"
     },
     {
         name: "Aman",
@@ -56,14 +57,25 @@ app.get('/', function (req, res) {
 app.post('/create_contact', (req, res)=>{
   // console.log(res);
 //   return  res.redirect('/practice');
-// console.log(req.body);
+  console.log(req.body);
 // console.log(req.body.name)
    contact_list.push(req.body);
    return res.redirect('back')
   // return res.redirect('/');
   
 
-})
+});
+
+app.get('/delete_contact', (req, res)=>{
+     console.log(req.query);
+    
+    let phoneno = req.query.phoneno;
+    let contactIndex = contact_list.findIndex(contact => contact.phoneno == phoneno);
+    if(contactIndex != -1){
+        contact_list.splice(contactIndex, 1);
+    }
+    return res.redirect('back');
+});
 
 app.get('/practice', function (req, res) {
     return res.render('practice', { title: "My Practice Page" });

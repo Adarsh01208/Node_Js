@@ -22,8 +22,16 @@
                 <ul class=" list-group ">
                     <% for (let i of contacts) { %>
                         <li class="border-sm shadow-sm list-group-item d-flex justify-content-around p-2">
-                          <p class="text-success m-0">Name: <%=i.name %></p>
-                          <p class="text-success m-0">Phoneno: <%=i.phoneno %></p> 
+
+                            <p class="text-success m-0">Name: <%=i.name %>
+                            </p>
+                            <p class="text-success m-0">Phoneno: <%=i.phoneno %>
+                            </p>
+
+                            <a href="/delete_contact/?phoneno=<%=i.phoneno %>"><i
+                                    class="fa-solid fa-trash-can m-1 "></i></a>
+
+
                         </li>
 
                         <% }%>
