@@ -7,7 +7,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded());
+app.use(express.urlencoded( {extended: true}));
 app.use(express.static('assets'));
 
 
@@ -24,6 +24,7 @@ app.use(express.static('assets'));
 //console.log("middleware 2 Called ")
 //next();
 //});
+
 
 
 var contact_list = [
@@ -58,7 +59,9 @@ app.post('/create_contact', (req, res)=>{
   // console.log(res);
 //   return  res.redirect('/practice');
   console.log(req.body);
+  
 // console.log(req.body.name)
+
    contact_list.push(req.body);
    return res.redirect('back')
   // return res.redirect('/');
