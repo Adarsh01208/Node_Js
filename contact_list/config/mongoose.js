@@ -2,11 +2,8 @@
 const mongoose = require('mongoose');
 //connect to the database
 mongoose.connect('mongodb://localhost/contact_list_db');
-
-
 //acquire the connection(to check if it is successful)
 const db = mongoose.connection;
-
 //error
 db.on('error', console.error.bind(console, 'error connecting to db'));
 
@@ -15,8 +12,5 @@ db.once('open', function () {
     console.log('Successfully connected to database');
 }
 );
-
 module.exports = db;
 
-// Path: contact_list/config/mongoose.js
-// Compare this snippet from contact_list/index.js:
