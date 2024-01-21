@@ -6,7 +6,6 @@ const db = require('./config/mongoose');
 
 const app = express();
 
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded());
@@ -51,32 +50,32 @@ app.get('/', function (req, res) {
     // res.send('Cool it is running or is it?');
     return res.render('Home',
         {
-            title: "My Contact List" ,
-            contacts: contact_list 
+            title: "My Contact List",
+            contacts: contact_list
         });
 
 });
 
-app.post('/create_contact', (req, res)=>{
-  // console.log(res);
-//   return  res.redirect('/practice');
-  console.log(req.body);
-  
-// console.log(req.body.name)
+app.post('/create_contact', (req, res) => {
+    // console.log(res);
+    //   return  res.redirect('/practice');
+    console.log(req.body);
 
-   contact_list.push(req.body);
-   return res.redirect('back')
-  // return res.redirect('/');
-  
+    // console.log(req.body.name)
+
+    contact_list.push(req.body);
+    return res.redirect('back')
+    // return res.redirect('/');
+
 
 });
 
-app.get('/delete_contact', (req, res)=>{
-     console.log(req.query);
-    
+app.get('/delete_contact', (req, res) => {
+    console.log(req.query);
+
     let phoneno = req.query.phoneno;
     let contactIndex = contact_list.findIndex(contact => contact.phoneno == phoneno);
-    if(contactIndex != -1){
+    if (contactIndex != -1) {
         contact_list.splice(contactIndex, 1);
     }
     return res.redirect('back');
@@ -97,7 +96,5 @@ app.listen(port, (err) => {
         console.log("Error in running the server", err);
         return;
     }
-
     console.log("Yup!My Express Server is running on port: ", port);
-
 });
