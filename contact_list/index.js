@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path');
 const port = 8000;
+const Contact = require('./models/contact');
 const db = require('./config/mongoose');
 
 
@@ -10,6 +11,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded());
 app.use(express.static('assets'));
+
 
 
 //middlewarre 1
@@ -48,36 +50,72 @@ app.get('/', function (req, res) {
     // console.log(req);
     // console.log(__dirname);
     // res.send('Cool it is running or is it?');
-    return res.render('Home',
-        {
-            title: "My Contact List",
-            contacts: contact_list
-        });
 
+    // Contact.find({}, function (err, contacts) {
+    //     if (err) {
+    //         console.log('erroe in fetching the contact')
+    //         return;
+    //     }
+    //     return res.render('Home',
+    //         {
+    //             title: "My Contact List",
+    //             contacts: contacts
+    //         });
+    // });
+    Contact.find({}).then(function (contacts) {
+        return res.render('Home',
+            {
+                title: "My Contact List",
+                contacts: contacts
+            });
+    }).catch(function (err){
+        console.log(err);
+    })
 });
 
 app.post('/create_contact', (req, res) => {
     // console.log(res);
     //   return  res.redirect('/practice');
     console.log(req.body);
+    // contact_list.push(req.body);
+    //  return res.redirect('back')
 
-    // console.log(req.body.name)
+    // Contact.create(req.body).then(function (contact) {
+    //     console.log(contact);
+    //     return res.redirect('back');
+    // }).catch(function (err) {
+    //     console.log('error in creating a contact');
+    //     return;
+    // });
 
-    contact_list.push(req.body);
-    return res.redirect('back')
-    // return res.redirect('/');
-
+    Contact.create(req.body).then(result => { 
+        console.log(result) 
+        return res.redirect('back')
+    }).catch(error => {
+        console.log(error);
+        return;
+    })
 
 });
+
 
 app.get('/delete_contact', (req, res) => {
     console.log(req.query);
 
-    let phoneno = req.query.phoneno;
-    let contactIndex = contact_list.findIndex(contact => contact.phoneno == phoneno);
-    if (contactIndex != -1) {
-        contact_list.splice(contactIndex, 1);
-    }
+    const id = req.query.id;
+    console.log(id);
+
+    Contact.findByIdAndDelete(id).then(result => {
+        console.log(result);
+    }).catch(error => {
+        console.log(error);
+    })
+
+    //  let phoneno = req.query.phoneno;
+    // let contactIndex = contact_list.findIndex(contact => contact.phoneno == phoneno);
+    // if (contactIndex != -1) {
+    //     contact_list.splice(contactIndex, 1);
+    // }
     return res.redirect('back');
 });
 
