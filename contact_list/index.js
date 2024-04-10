@@ -36,11 +36,11 @@ var contact_list = [
         phoneno: "1245698568"
     },
     {
-        name: "Aman",
+        name: "aditya",
         phoneno: "7806466682"
     },
     {
-        name: "Anmol",
+        name: "Aadi",
         phoneno: "4575766882"
     }
 ]
