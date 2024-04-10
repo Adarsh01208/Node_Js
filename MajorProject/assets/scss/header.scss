@@ -1,0 +1,30 @@
+// Header styles
+// Header styles
+.header {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .navbar-brand {
+        
+        font-size: 1.5em;
+      
+    }
+
+    .nav-link {
+        color: #343a40;
+    
+    }
+    .d-flex {
+        display: flex;
+    }
+    
+    .justify-content-between {
+        justify-content: space-between;
+    }
+}
+
+
+// Add more styles for your header here

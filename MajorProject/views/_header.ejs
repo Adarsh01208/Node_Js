@@ -1,5 +1,27 @@
-<header>
-    <nav>
-     <h1>nav bar</h1>
+<header class="bg-primary text-white">
+    <nav class="navbar navbar-expand-lg container">
+        <a class="navbar-brand" href="/">Page Header</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <% if (locals.user) { %>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#"><%= user.name %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/user/sign-out">SignOut</a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/user/sign-in">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/user/sign-up">Sign Up</a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
     </nav>
 </header>
