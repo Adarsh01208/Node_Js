@@ -5,10 +5,15 @@ const fs = require('fs');
 function requestHandler(req, res){
 
    console.log(req.url);
-   res.writeHead(200, {'content-type': 'text/html'});
-    // res.end('<h1>Gotcha</h1>');
-
+//    res.writeHead(200, {'content-type': 'text/html'});
+//     // res.end('<h1>Gotcha</h1>');
     let filepath;
+    const log = `$Date: ${Date()} \n URL: ${req.url}\n\n`
+    fs.appendFile('log.txt',log, (err,data) => {
+        if(err) console.log(err);
+        console.log("log written successfully");
+
+    });
 
     switch(req.url){
         case '/':
