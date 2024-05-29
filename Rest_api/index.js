@@ -1,6 +1,7 @@
 const express = require('express')
 const data = require('./MOCK_DATA.json')
 const bodyParser = require('body-parser')
+const fs = require('fs')
 const app = express()
 const port = 8000
 app.use(bodyParser.json())
@@ -34,9 +35,17 @@ app.get('/api/users/:id', (req, res) => {
 // post method for adding new user
 app.post('/api/users', (req, res) => {
     const user = req.body
-    data.push(user)
-    res.send(data)
-    console.log("User added successfully")
+    const newUser = {
+        id: data.length + 1,
+        ...user
+    }
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify([...data, newUser]), 'utf-8', (err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send({"status": "User added successfully" , "id": newUser.id})
+        }
+    })
 })
 
 // edit the user with id
@@ -52,26 +61,40 @@ app.patch('/api/users/:id', (req, res) => {
             user.first_name = newUser.first_name
             user.last_name = newUser.last_name
             user.email = newUser.email
+            user.gender = newUser.gender
+            user.job_title = newUser.job_title
         }
     })
-    console.log("User updated successfully")
-    res.json(data)
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(data), 'utf-8', (err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send({"status": "User updated successfully" , "id": id})
+        }
+    })
 })
 
 // delete the user with id
 app.delete('/api/users/:id', (req, res) => {
     const id = req.params.id
-    const user = data.find(user => user.id == id)
-    if (!user) {
-        res.status(404).send('User not found')
+    const user = data.findIndex(user => user.id == id)
+    if (user === -1) {
+        res.status(404).send("status: User not found")
     }
-    data.splice(data.indexOf(user), 1)
-    console.log("User deleted successfully")
-    res.send(`User with id ${id} has been deleted`)
+    else{
+        data.splice(user, 1)
+        fs.writeFile('./MOCK_DATA.json', JSON.stringify(data), 'utf-8', (err) => {
+            if (err) {
+                console.log(err)
+            } else {
+                res.send({"status": "Success" , "message": "User deleted successfully with id " + id})
+            }
+        })
+    }
 })
 
 
-
+// server listening on port 8000
 app.listen(port, (err) => {
     if (err) {
         console.log(err)
