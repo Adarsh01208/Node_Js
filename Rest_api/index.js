@@ -11,24 +11,27 @@ app.use(bodyParser.json())
 app.get('/api/users', (req, res) => {
     res.json(data)
 })
-// html rendring api for all users
-app.get('/users', (req, res) => {
-    const html = `
-    <h1>Users</h1>
-    <ul>
-    ${data.map(user => `<li>${user.first_name} ${user.last_name}</li>`).join('')}
-     </ul>
-    `
-    res.send(html)
-})
+// // html rendring api for all users
+// app.get('/users', (req, res) => {
+//     const html = `
+//     <h1>Users</h1>
+//     <ul>
+//     ${data.map(user => `<li>${user.first_name} ${user.last_name}</li>`).join('')}
+//      </ul>
+//     `
+//     res.send(html)
+// })
 
 // get method for single user || or dynamic path parameter
 app.get('/api/users/:id', (req, res) => {
     const id = req.params.id
     const user = data.find(user => user.id == id)
     if (!user) {
-        res.status(404).send('User not found')
+        res.status(404).send({
+            "status" : "unsuccessful",
+             "message": "User not found"})
     }
+    console.log("success")
     res.json(user)
 })
 
@@ -42,8 +45,15 @@ app.post('/api/users', (req, res) => {
     fs.writeFile('./MOCK_DATA.json', JSON.stringify([...data, newUser]), 'utf-8', (err) => {
         if (err) {
             console.log(err)
+            res.send({
+                "status": "unsuccessful",
+                "message": "User not added"
+            })
         } else {
-            res.send({"status": "User added successfully" , "id": newUser.id})
+            res.send({
+                "status": "success",
+                "message": "User added successfully", "id": newUser.id
+            })
         }
     })
 })
@@ -53,7 +63,9 @@ app.patch('/api/users/:id', (req, res) => {
     const id = req.params.id
     const user = data.find(user => user.id == id)
     if (!user) {
-        res.status(404).send('User not found')
+        res.status(404).send({
+            "status" : "unsuccessful",
+             "message": "User not found"})
     }
     const newUser = req.body
     data.forEach(user => {
@@ -69,7 +81,10 @@ app.patch('/api/users/:id', (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            res.send({"status": "User updated successfully" , "id": id})
+            res.send({
+                "status": "Success",
+                "message": "User updated successfully", "id": id
+            })
         }
     })
 })
@@ -79,15 +94,20 @@ app.delete('/api/users/:id', (req, res) => {
     const id = req.params.id
     const user = data.findIndex(user => user.id == id)
     if (user === -1) {
-        res.status(404).send("status: User not found")
+        res.status(404).send({
+            "status" : "unsuccessful",
+             "message": "User not found"} )
     }
-    else{
+    else {
         data.splice(user, 1)
         fs.writeFile('./MOCK_DATA.json', JSON.stringify(data), 'utf-8', (err) => {
             if (err) {
                 console.log(err)
             } else {
-                res.send({"status": "Success" , "message": "User deleted successfully with id " + id})
+                res.send({
+                    "status": "Success",
+                    "message": "User deleted successfully with id " + id
+                })
             }
         })
     }
