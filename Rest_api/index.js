@@ -4,10 +4,22 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const app = express()
 const port = 8000
+
+// middleware for parsing json data
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+    fs.writeFile('./log.txt', `${req.method}  request for ${req.url} - ${JSON.stringify(req.body)} ${req.ip} \n`, { flag: 'a' }, (err) => { 
+        if (err) {
+            console.log(err)
+        }
+    }
+    )
+    next()
+})
 
-// hybride api for all users
+
+
 app.get('/api/users', (req, res) => {
     res.json(data)
 })
@@ -22,7 +34,6 @@ app.get('/api/users', (req, res) => {
 //     res.send(html)
 // })
 
-// get method for single user || or dynamic path parameter
 app.get('/api/users/:id', (req, res) => {
     const id = req.params.id
     const user = data.find(user => user.id == id)

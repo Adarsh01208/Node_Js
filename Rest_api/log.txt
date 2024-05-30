@@ -1,0 +1,6 @@
+GET  request for / - {} ::1 
+GET  request for /users - {} ::1 
+GET  request for /api/users - {} ::1 
+GET  request for /api/users/1 - {} ::1 
+GET  request for /api/users/29 - {} ::1 
+GET  request for /api/users/100 - {} ::1 
