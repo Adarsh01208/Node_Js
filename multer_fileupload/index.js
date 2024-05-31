@@ -1,14 +1,15 @@
 const express = require('express')
-const multer = require('multer')
+const app = express()
 
+const upload = require('./multer')
 const path = require('path')
 const port = 8000
-const app = express()
- 
-const upload = require('./multer')
+
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
+
+
 
 
 
