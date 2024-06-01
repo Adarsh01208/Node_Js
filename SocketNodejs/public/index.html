@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .chat-window {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ccc;
+        }
+        .chat-input {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .chat-input input {
+            flex: 1;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4 w-50">
+        <h1 class="text-center mb-4">Chat Application</h1>
+        <div class="chat-container mx-auto">
+            <div id="chat-window" class="chat-window"></div>
+            <div class="chat-input">
+                <input type="text" id="message" class="form-control" placeholder="Enter your message">
+                <button id="send" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const socket = io('http://localhost:8000');
+        const message = document.getElementById('message');
+        const sendbtn = document.getElementById('send');
+        const chatWindow = document.getElementById('chat-window');
+
+        sendbtn.addEventListener('click', () => {
+            const msg = message.value;
+            if (msg) {
+                socket.emit('user-message', msg);
+                message.value = '';
+            }
+        });
+
+        socket.on('user-message', (msg) => {
+            const p = document.createElement('p');
+            p.innerText ="message :  " + msg;
+            chatWindow.appendChild(p);
+             chatWindow.scrollTop = chatWindow.scrollHeight;
+        });
+    </script>
+</body>
+</html>

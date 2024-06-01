@@ -1,0 +1,16 @@
+{
+  "name": "socketnodejs",
+  "version": "1.0.0",
+  "description": "chat app using websockets in nodejs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "adarsh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.2",
+    "socket.io": "^4.7.5"
+  }
+}
