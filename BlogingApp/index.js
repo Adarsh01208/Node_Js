@@ -1,15 +1,27 @@
-const exprees = require('express');
+const express = require('express');
 const db = require('./config/connection');
-const app = exprees();
+const path = require('path');
+const app = express();
 
-const port = 8000;
+const cookieParser = require('cookie-parser');
+const checkForAuthencicationAndCookie = require('./middleware/authenication');
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
-}
-);
 
-app.listen(port, () => {
+const PORT = 8000;
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('uploads'));
+app.use(express.json());
+app.use(cookieParser());
+
+app.use(checkForAuthencicationAndCookie('token'));
+
+
+app.use('/', require('./routes/user_router'));
+app.use('/', require('./routes/blog_router'));
+
+app.listen(PORT, () => {
     console.log('Server is listening on port 8000');
-}
-);
+});
