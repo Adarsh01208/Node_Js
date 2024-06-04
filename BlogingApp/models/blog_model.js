@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, 'Title is required']
+        required:true
     },
     description: {
         type: String,
-        required: [true, 'Body is required ']
+        required: true
     },
     coverImageURL: {
         type: String,
@@ -14,10 +14,8 @@ const blogSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: "User",
     }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Blog', blogSchema);
-
-

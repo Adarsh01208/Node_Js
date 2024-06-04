@@ -7,15 +7,17 @@ const cookieParser = require('cookie-parser');
 const checkForAuthencicationAndCookie = require('./middleware/authenication');
 
 
-const PORT = 8000;
 
+const PORT = process.env.PORT || 8000;
+
+ 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('uploads'));
 app.use(express.json());
 app.use(cookieParser());
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(checkForAuthencicationAndCookie('token'));
 
 
