@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+</head>
+
+<body>
+    <div>
+        <h1>To-Do List</h1>
+
+        <!-- Add User Form -->
+        <form action="/add-user" method="POST">
+            <div>
+                <input type="text" name="name" placeholder="Name" required>
+            </div>
+            <div>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <button type="submit">Add User</button>
+        </form>
+
+        <!-- User List -->
+        <ul>
+            <% users.forEach(user=> { %>
+                <li>
+                    <span>
+                        <%= user.name %> (<%= user.email %>)
+                    </span>
+                    <div>
+                        <!-- Edit Button -->
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#editModal<%= user.id %>">
+                            Edit
+                        </button>
+                        <!-- Delete Button -->
+                        <form action="/delete-user/<%= user.id %>" method="POST" class="d-inline">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                </li>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal<%= user.id %>" tabindex="-1"
+                    aria-labelledby="editModalLabel<%= user.id %>" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel<%= user.id %>">Edit User</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="/edit-user/<%= user.id %>" method="POST">
+                                <div class="modal-body">
+                                    <div>
+                                        <input type="text" name="name" value="<%= user.name %>" required>
+                                    </div>
+                                    <div>
+                                        <input type="email" name="email" value="<%= user.email %>" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </ul>
+    </div>
+
+</body>
+
+</html>
